@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">HybridTelemetryClient</string>
+    <string name="select_server">Select Server</string>
+</resources>
