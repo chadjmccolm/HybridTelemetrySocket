@@ -24,6 +24,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.util.Locale;
+import java.lang.Math;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
@@ -106,17 +107,33 @@ public class MainActivity extends AppCompatActivity {
                         int GLV_Volts_Incoming_Int;
 
                         try {
+
+                            // Get the incoming CLT raw value from hybrid/engine/temperature
                             CLT_Incoming = obj.getString("hybrid/engine/temperature");
+
+                            // Get the integer to send to the gauge and make sure it's within the bounds of the gauge
                             CLT_Incoming_Int = Math.round(Float.valueOf(CLT_Incoming));
+                            CLT_Incoming_Int = Math.max(CLT_Incoming_Int, CLT_Gauge.getStartValue());
+                            CLT_Incoming_Int = Math.min(CLT_Incoming_Int, CLT_Gauge.getEndValue());
+
+                            // Format the full float value for the text display
                             CLT_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(CLT_Incoming)) + "F";
+
                         } catch (org.json.JSONException e) {
+
+                            // This will trigger if the JSON operation fails, this means it could not pull that data
                             CLT_Incoming = "N/A";
                             CLT_Incoming_Int = CLT_Gauge.getStartValue();
+
                         }
 
                         try {
                             AFR_Incoming = obj.getString("hybrid/engine/AFR");
+
                             AFR_Incoming_Int = Math.round(Float.valueOf(AFR_Incoming)*10);
+                            AFR_Incoming_Int = Math.max(AFR_Incoming_Int, AFR_Gauge.getStartValue());
+                            AFR_Incoming_Int = Math.min(AFR_Incoming_Int, AFR_Gauge.getEndValue());
+
                             AFR_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AFR_Incoming));
                         } catch (org.json.JSONException e) {
                             AFR_Incoming = "N/A";
@@ -125,7 +142,11 @@ public class MainActivity extends AppCompatActivity {
 
                         try {
                             AMS_Volts_Incoming = obj.getString("hybrid/ams/voltage");
+
                             AMS_Volts_Incoming_Int = Math.round(Float.valueOf(AMS_Volts_Incoming)*10);
+                            AMS_Volts_Incoming_Int = Math.max(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getStartValue());
+                            AMS_Volts_Incoming_Int = Math.min(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getEndValue());
+
                             AMS_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AMS_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
                             AMS_Volts_Incoming = "N/A";
@@ -134,7 +155,11 @@ public class MainActivity extends AppCompatActivity {
 
                         try {
                             GLV_Volts_Incoming = obj.getString("hybrid/dash/GLVoltage");
+
                             GLV_Volts_Incoming_Int = Math.round(Float.valueOf(GLV_Volts_Incoming)*10);
+                            GLV_Volts_Incoming_Int = Math.max(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getStartValue());
+                            GLV_Volts_Incoming_Int = Math.min(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getEndValue());
+
                             GLV_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(GLV_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
                             GLV_Volts_Incoming = "N/A";
