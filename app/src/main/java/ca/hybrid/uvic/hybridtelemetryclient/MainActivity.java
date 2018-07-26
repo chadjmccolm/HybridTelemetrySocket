@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String MY_PREFS_NAME = "user_prefs";
     String server_address = "localhost";
     boolean server_connected = false;
+
+    ColourMap CLT_Map = new ColourMap(new int[]{110, 150, 175, 188}, new String[]{"#EE9D40", "#FBE50B", "#30B32D", "#FF0000"});
+    ColourMap AFR_Map = new ColourMap(new int[]{0, 105, 147}, new String[]{"#FBE50B", "#30B32D", "#FF0000"});
+    ColourMap AMS_Volts_Map = new ColourMap(new int[]{0, 370, 400, 900, 975}, new String[]{"#FF0000", "#EE9D40", "#30B32D", "#EE9D40", "#FF0000"});
+    ColourMap GLV_Volts_Map = new ColourMap(new int[]{0, 100, 143}, new String[]{"#FF0000", "#30B32D", "#FF0000"});
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +105,16 @@ public class MainActivity extends AppCompatActivity {
 
                         String CLT_Incoming;
                         int CLT_Incoming_Int;
+                        String CLT_Colour;
                         String AFR_Incoming;
                         int AFR_Incoming_Int;
+                        String AFR_Colour;
                         String AMS_Volts_Incoming;
                         int AMS_Volts_Incoming_Int;
+                        String AMS_Volts_Colour;
                         String GLV_Volts_Incoming;
                         int GLV_Volts_Incoming_Int;
+                        String GLV_Volts_Colour;
 
                         try {
 
@@ -115,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
                             CLT_Incoming_Int = Math.round(Float.valueOf(CLT_Incoming));
                             CLT_Incoming_Int = Math.max(CLT_Incoming_Int, CLT_Gauge.getStartValue());
                             CLT_Incoming_Int = Math.min(CLT_Incoming_Int, CLT_Gauge.getEndValue());
+                            CLT_Colour = CLT_Map.getColour(CLT_Incoming_Int);
 
                             // Format the full float value for the text display
                             CLT_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(CLT_Incoming)) + "F";
@@ -124,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                             // This will trigger if the JSON operation fails, this means it could not pull that data
                             CLT_Incoming = "N/A";
                             CLT_Incoming_Int = CLT_Gauge.getStartValue();
+                            CLT_Colour = "#636363";
 
                         }
 
@@ -133,11 +145,13 @@ public class MainActivity extends AppCompatActivity {
                             AFR_Incoming_Int = Math.round(Float.valueOf(AFR_Incoming)*10);
                             AFR_Incoming_Int = Math.max(AFR_Incoming_Int, AFR_Gauge.getStartValue());
                             AFR_Incoming_Int = Math.min(AFR_Incoming_Int, AFR_Gauge.getEndValue());
+                            AFR_Colour = CLT_Map.getColour(CLT_Incoming_Int);
 
                             AFR_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AFR_Incoming));
                         } catch (org.json.JSONException e) {
                             AFR_Incoming = "N/A";
                             AFR_Incoming_Int = AFR_Gauge.getStartValue();
+                            AFR_Colour = "#636363";
                         }
 
                         try {
@@ -146,11 +160,13 @@ public class MainActivity extends AppCompatActivity {
                             AMS_Volts_Incoming_Int = Math.round(Float.valueOf(AMS_Volts_Incoming)*10);
                             AMS_Volts_Incoming_Int = Math.max(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getStartValue());
                             AMS_Volts_Incoming_Int = Math.min(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getEndValue());
+                            AMS_Volts_Colour = CLT_Map.getColour(CLT_Incoming_Int);
 
                             AMS_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AMS_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
                             AMS_Volts_Incoming = "N/A";
                             AMS_Volts_Incoming_Int = AMS_Volts_Gauge.getStartValue();
+                            AMS_Volts_Colour = "#636363";
                         }
 
                         try {
@@ -159,33 +175,43 @@ public class MainActivity extends AppCompatActivity {
                             GLV_Volts_Incoming_Int = Math.round(Float.valueOf(GLV_Volts_Incoming)*10);
                             GLV_Volts_Incoming_Int = Math.max(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getStartValue());
                             GLV_Volts_Incoming_Int = Math.min(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getEndValue());
+                            GLV_Volts_Colour = CLT_Map.getColour(CLT_Incoming_Int);
 
                             GLV_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(GLV_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
                             GLV_Volts_Incoming = "N/A";
                             GLV_Volts_Incoming_Int = GLV_Volts_Gauge.getStartValue();
+                            GLV_Volts_Colour = "#636363";
                         }
 
                         final String CLT_Incoming_Final = CLT_Incoming;
                         final int CLT_Incoming_Int_Final = CLT_Incoming_Int;
+                        final String CLT_Colour_Final = CLT_Colour;
                         final String AFR_Incoming_Final = AFR_Incoming;
                         final int AFR_Incoming_Int_Final = AFR_Incoming_Int;
+                        final String AFR_Colour_Final = AFR_Colour;
                         final String AMS_Volts_Incoming_Final = AMS_Volts_Incoming;
                         final int AMS_Volts_Incoming_Int_Final = AMS_Volts_Incoming_Int;
+                        final String AMS_Volts_Colour_Final = AMS_Volts_Colour;
                         final String GLV_Volts_Incoming_Final = GLV_Volts_Incoming;
                         final int GLV_Volts_Incoming_Int_Final = GLV_Volts_Incoming_Int;
+                        final String GLV_Volts_Colour_Final = GLV_Volts_Colour;
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 CLT_Value.setText(CLT_Incoming_Final);
                                 CLT_Gauge.setValue(CLT_Incoming_Int_Final);
+                                CLT_Gauge.setStrokeColor(Color.parseColor(CLT_Colour_Final));
                                 AFR_Value.setText(AFR_Incoming_Final);
                                 AFR_Gauge.setValue(AFR_Incoming_Int_Final);
+                                AFR_Gauge.setStrokeColor(Color.parseColor(AFR_Colour_Final));
                                 AMS_Volts_Value.setText(AMS_Volts_Incoming_Final);
                                 AMS_Volts_Gauge.setValue(AMS_Volts_Incoming_Int_Final);
+                                AMS_Volts_Gauge.setStrokeColor(Color.parseColor(AMS_Volts_Colour_Final));
                                 GLV_Volts_Value.setText(GLV_Volts_Incoming_Final);
                                 GLV_Volts_Gauge.setValue(GLV_Volts_Incoming_Int_Final);
+                                GLV_Volts_Gauge.setStrokeColor(Color.parseColor(GLV_Volts_Colour_Final));
                             }
                         });
 
