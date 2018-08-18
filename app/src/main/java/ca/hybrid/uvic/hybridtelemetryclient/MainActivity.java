@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                             AFR_Incoming_Int = Math.round(Float.valueOf(AFR_Incoming)*10);
                             AFR_Incoming_Int = Math.max(AFR_Incoming_Int, AFR_Gauge.getStartValue());
                             AFR_Incoming_Int = Math.min(AFR_Incoming_Int, AFR_Gauge.getEndValue());
-                            AFR_Colour = CLT_Map.getColour(CLT_Incoming_Int);
+                            AFR_Colour = AFR_Map.getColour(AFR_Incoming_Int);
 
                             AFR_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AFR_Incoming));
                         } catch (org.json.JSONException e) {
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                             AMS_Volts_Incoming_Int = Math.round(Float.valueOf(AMS_Volts_Incoming)*10);
                             AMS_Volts_Incoming_Int = Math.max(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getStartValue());
                             AMS_Volts_Incoming_Int = Math.min(AMS_Volts_Incoming_Int, AMS_Volts_Gauge.getEndValue());
-                            AMS_Volts_Colour = CLT_Map.getColour(CLT_Incoming_Int);
+                            AMS_Volts_Colour = AMS_Volts_Map.getColour(AMS_Volts_Incoming_Int);
 
                             AMS_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(AMS_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                             GLV_Volts_Incoming_Int = Math.round(Float.valueOf(GLV_Volts_Incoming)*10);
                             GLV_Volts_Incoming_Int = Math.max(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getStartValue());
                             GLV_Volts_Incoming_Int = Math.min(GLV_Volts_Incoming_Int, GLV_Volts_Gauge.getEndValue());
-                            GLV_Volts_Colour = CLT_Map.getColour(CLT_Incoming_Int);
+                            GLV_Volts_Colour = GLV_Volts_Map.getColour(GLV_Volts_Incoming_Int);
 
                             GLV_Volts_Incoming = String.format(Locale.getDefault(), "%.1f", Float.valueOf(GLV_Volts_Incoming)) + "V";
                         } catch (org.json.JSONException e) {
@@ -202,16 +202,24 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 CLT_Value.setText(CLT_Incoming_Final);
                                 CLT_Gauge.setValue(CLT_Incoming_Int_Final);
-                                CLT_Gauge.setStrokeColor(Color.parseColor(CLT_Colour_Final));
+                                CLT_Gauge.setPointStartColor(Color.parseColor(CLT_Colour_Final));
+                                CLT_Gauge.setPointEndColor(Color.parseColor(CLT_Colour_Final));
+
                                 AFR_Value.setText(AFR_Incoming_Final);
                                 AFR_Gauge.setValue(AFR_Incoming_Int_Final);
-                                AFR_Gauge.setStrokeColor(Color.parseColor(AFR_Colour_Final));
+                                AFR_Gauge.setPointStartColor(Color.parseColor(AFR_Colour_Final));
+                                AFR_Gauge.setPointEndColor(Color.parseColor(AFR_Colour_Final));
+
                                 AMS_Volts_Value.setText(AMS_Volts_Incoming_Final);
                                 AMS_Volts_Gauge.setValue(AMS_Volts_Incoming_Int_Final);
-                                AMS_Volts_Gauge.setStrokeColor(Color.parseColor(AMS_Volts_Colour_Final));
+                                AMS_Volts_Gauge.setPointStartColor(Color.parseColor(AMS_Volts_Colour_Final));
+                                AMS_Volts_Gauge.setPointEndColor(Color.parseColor(AMS_Volts_Colour_Final));
+
                                 GLV_Volts_Value.setText(GLV_Volts_Incoming_Final);
                                 GLV_Volts_Gauge.setValue(GLV_Volts_Incoming_Int_Final);
-                                GLV_Volts_Gauge.setStrokeColor(Color.parseColor(GLV_Volts_Colour_Final));
+                                GLV_Volts_Gauge.setPointStartColor(Color.parseColor(GLV_Volts_Colour_Final));
+                                GLV_Volts_Gauge.setPointEndColor(Color.parseColor(GLV_Volts_Colour_Final));
+
                             }
                         });
 
